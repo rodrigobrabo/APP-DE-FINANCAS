@@ -18,22 +18,25 @@ model User {
   categories Category[]
 }
 
+enum CategoryType {
+  INCOME
+  EXPENSE
+}
+
 model Category {
-  id     Int    @id @default(autoincrement())
-  name   String
-  type   String // "income" | "expense"
-
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-
-  incomes  Income[]
-  expenses Expense[]
+  id        Int          @id @default(autoincrement())
+  name      String
+  type      CategoryType
+  userId    Int
+  user      User         @relation(fields: [userId], references: [id])
+  incomes   Income[]
+  expenses  Expense[]
 }
 
 model Income {
   id        Int      @id @default(autoincrement())
-  value     Float
-  date      DateTime
+  value     Decimal
+  date DateTime @default(now())
   description String?
 
   userId     Int
@@ -47,8 +50,8 @@ model Income {
 
 model Expense {
   id        Int      @id @default(autoincrement())
-  value     Float
-  date      DateTime
+  value     Decimal
+  date DateTime @default(now())
   description String?
 
   userId     Int
